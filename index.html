@@ -3,6 +3,118 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projet IoT – Guide Complet</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Guide du Projet IoT</h1>
+
+<div class="steps-bar">
+  <div class="step active" onclick="showStep(1)">1</div>
+  <div class="step" onclick="showStep(2)">2</div>
+  <div class="step" onclick="showStep(3)">3</div>
+  <div class="step" onclick="showStep(4)">4</div>
+</div>
+
+<!-- STEP 1 -->
+<div id="step1" class="content-section active">
+  <h2>1️⃣ Composants</h2>
+  <ul>
+    <li>Carte ESP32</li>
+    <li>Capteur (ex: DHT11)</li>
+    <li>LED</li>
+    <li>Résistance 220Ω</li>
+    <li>Câbles Dupont</li>
+    <li>Breadboard</li>
+  </ul>
+</div>
+
+<!-- STEP 2 -->
+<div id="step2" class="content-section">
+  <h2>2️⃣ Branchement</h2>
+  <ul>
+    <li>DHT11 → VCC vers 3.3V</li>
+    <li>DHT11 → GND vers GND</li>
+    <li>DHT11 → DATA vers GPIO 4</li>
+    <li>LED → GPIO 2 avec résistance</li>
+  </ul>
+</div>
+
+<!-- STEP 3 -->
+<div id="step3" class="content-section">
+  <h2>3️⃣ Code Arduino IDE</h2>
+  <pre>
+#include "DHT.h"
+
+#define DHTPIN 4
+#define DHTTYPE DHT11
+#define LED 2
+
+DHT dht(DHTPIN, DHTTYPE);
+
+void setup() {
+  Serial.begin(115200);
+  dht.begin();
+  pinMode(LED, OUTPUT);
+}
+
+void loop() {
+  float temp = dht.readTemperature();
+  Serial.println(temp);
+
+  if(temp > 30){
+    digitalWrite(LED, HIGH);
+  } else {
+    digitalWrite(LED, LOW);
+  }
+
+  delay(2000);
+}
+  </pre>
+</div>
+
+<!-- STEP 4 -->
+<div id="step4" class="content-section">
+  <h2>4️⃣ Code MicroPython</h2>
+  <pre>
+import machine
+import dht
+import time
+
+sensor = dht.DHT11(machine.Pin(4))
+led = machine.Pin(2, machine.Pin.OUT)
+
+while True:
+    sensor.measure()
+    temp = sensor.temperature()
+    print(temp)
+
+    if temp > 30:
+        led.on()
+    else:
+        led.off()
+
+    time.sleep(2)
+  </pre>
+</div>
+
+<script>
+function showStep(step) {
+  document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+  document.querySelectorAll('.step').forEach(b => b.classList.remove('active'));
+  document.getElementById('step' + step).classList.add('active');
+  document.querySelector('.steps-bar .step:nth-child(' + step + ')').classList.add('active');
+}
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Documentation technique du modèle d’apprentissage</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
