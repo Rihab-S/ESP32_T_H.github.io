@@ -16,8 +16,8 @@ oled = ssd1306.SSD1306_I2C(128, 64, i2c)
 dht_sensor = dht.DHT11(Pin(4))
 
 # ================= WiFi =================
-SSID = "Freebox-1C50BE"
-PASSWORD = "6f4tcqknknq53r96qtzmv4"
+SSID = "ajouter le nom de votre wifi"
+PASSWORD = "ajouter ton mot de passe wifi"
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
 wlan.connect(SSID, PASSWORD)
